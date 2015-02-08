@@ -1,0 +1,136 @@
+snippet phpfile
+    <?php
+    /**
+     * ${1: description}
+     *
+     * @package
+     * @subpackage
+     */
+
+snippet class
+    class ${1:`vim_snippets#Filename()`}
+    {
+        ${0}
+    }
+
+snippet interface
+    interface ${1:`vim_snippets#Filename()`}
+    {
+        ${0}
+    }
+
+snippet setget
+    /**
+     * Gets the value of ${1:foo}
+     *
+     * @return ${2:$1}
+     */
+    public function get${3:$2}()
+    {
+        return $this->${4:$1};
+    }
+
+    /**
+     * Sets the value of $1
+     *
+     * @param $2 $$1 ${5:description}
+     * @return ${6:`vim_snippets#Filename()`}
+     */
+    public function set$3(${7:$2 }$$1)
+    {
+        $this->$4 = $$1;
+        return $this;
+    }
+
+snippet setoptions
+    /**
+     * Set options for this class
+     *
+     * Receive a traversable collection of $key => $value options
+     * and call set{Key}(value) for each pair. Keys that don't have
+     * setters will be ignored
+     *
+     * @param array|\Traversable $options
+     * @return ${1:`vim_snippets#Filename()`}
+     */
+    public function setOptions($options)
+    {
+        foreach ($options as $key => $value) {
+            $method = 'set' . ucfirst($key);
+            if (method_exists($this, $method)) {
+                $this->{$method}($value);
+            }
+        }
+
+        return $this;
+    }
+
+snippet singleton
+    class ${1:`vim_snippets#Filename()`}
+    {
+        /**
+         * Singleton object
+         *
+         * @static
+         * @var $1
+         */
+        private static $instance = null;
+
+        /**
+         * Class constructor - must not be called directly
+         *
+         * @access private
+         */
+        private function __construct()
+        {
+
+        }
+
+        /**
+         * __clone() implementation that prevents singleton objects cloning
+         *
+         * @return void
+         * @throws \BadMethodCallException
+         */
+        public function __clone()
+        {
+            throw new \BadMethodCallException('Please do not clone singleton objects');
+        }
+
+        /**
+         * Returns a singleton instance of this class
+         *
+         * @static
+         * @return $1
+         */
+        public static function getInstance()
+        {
+            if (null === self::$instance) {
+                self::$instance = new $1();
+            }
+
+            return self::$instance;
+        }
+    }
+
+snippet phpunit
+    class ${1:`vim_snippets#Filename()`} extends \PHPUnit_Framework_TestCase
+    {
+        ${0}
+    }
+
+snippet testmethod
+    /**
+     * Test
+     *
+     * @return void
+     *
+     * @expectedException
+     * @dataProvider
+     */
+    public test${1:Foo}()
+    {
+        ${0}
+    }
+
+
