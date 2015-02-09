@@ -1,0 +1,170 @@
+snippet phpfile
+<?php
+/**
+ * ${1: description}
+ *
+ * @package
+ * @subpackage
+ */
+
+${0}
+endsnippet
+
+snippet fun "generic function" b
+${1:public} ${2:static }function ${3:name}(${5})
+{
+    ${0}
+}
+endsnippet
+
+snippet nsclass "class with namespace support" b
+namespace `!p
+abspath = os.path.abspath(path)
+m = re.search(r'[A-Z].+(?=/)', abspath)
+if m:
+    snip.rv = m.group().replace('/', '\\')
+`;
+
+class `!p snip.rv = re.match(r'.*(?=\.)', fn).group()`$2
+{
+    public function __construct(${3:$options})
+    {
+        ${4:// code}
+    }$0
+}
+endsnippet
+
+snippet nsinterface "interface with namespace support" b
+namespace `!p
+abspath = os.path.abspath(path)
+m = re.search(r'[A-Z].+(?=/)', abspath)
+if m:
+    snip.rv = m.group().replace('/', '\\')
+`;
+
+interface ${1:`!p snip.rv = re.match(r'.*(?=\.)', fn).group()`}
+{
+    public function ${2:name}({${3:options}});$0
+}
+endsnippet
+
+snippet setget "setter / getter for a variable" b
+/**
+ * Gets the value of ${1:foo}
+ *
+ * @return ${2:mixed}
+ */
+public function get${3:MyAttribute}()
+{
+    return $this->${4:`!p snip.rv = t[3][:1].lower() + t[3][1:]`};
+}
+/**
+ * Sets the value of $1
+ *
+ * @param $2 $$4
+ * @return ${5:`!p snip.rv = re.match(r'.*(?=\.)', fn).group()`}
+ */
+public function set$3(${6:`!p snip.rv = t[2] + ' ' if t[2][:1].isupper() else ''`}$$4)
+{
+    $this->$4 = $$4;
+    return $this;
+}
+endsnippet
+
+snippet setoptions "set multiple options at once" b
+/**
+ * Set options for this class
+ *
+ * Receive a traversable collection of $key => $value options
+ * and call set{Key}(value) for each pair. Keys that don't have
+ * setters will be ignored
+ *
+ * @param array|\Traversable $options
+ * @return ${1:`vim_snippets#Filename()`}
+ */
+public function setOptions($options)
+{
+    foreach ($options as $key => $value) {
+        $method = 'set' . ucfirst($key);
+        if (method_exists($this, $method)) {
+            $this->{$method}($value);
+        }
+    }
+
+    return $this;
+}
+endsnippet
+
+snippet singleton "create a singleton class"
+class ${1:`!p snip.rv = re.match(r'.*(?=\.)', fn).group()`}
+{
+    /**
+     * Singleton object
+     *
+     * @static
+     * @var $1
+     */
+    private static $instance = null;
+
+    /**
+     * Class constructor - must not be called directly
+     *
+     * @access private
+     */
+    private function __construct()
+    {
+        ${2: // perform class initialization here}
+    }
+
+    /**
+     * __clone() implementation that prevents singleton objects cloning
+     *
+     * @return void
+     * @throws \BadMethodCallException
+     */
+    public function __clone()
+    {
+        throw new \BadMethodCallException('Please do not clone singleton objects');
+    }
+
+    /**
+     * Returns a singleton instance of this class
+     *
+     * @static
+     * @return $1
+     */
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new $1();
+        }
+
+        return self::$instance;
+    }
+
+    ${0}
+}
+endsnippet
+
+snippet phpunit "create a phpunit test class" b
+class ${1:`!p snip.rv = re.match(r'.*(?=\.)', fn).group()`} extends \PHPUnit_Framework_TestCase
+{
+    ${0}
+}
+endsnippet
+
+snippet testmethod
+/**
+ * Test
+ *
+ * @return void
+ *
+ * @expectedException
+ * @dataProvider
+ */
+public test${1:Foo}()
+{
+    ${0}
+}
+endsnippet
+
