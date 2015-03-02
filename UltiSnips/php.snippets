@@ -50,7 +50,7 @@ endsnippet
 
 snippet setget "setter / getter for a variable" b
 /**
- * Gets the value of ${1:foo}
+ * Get the ${1:foo}
  *
  * @return ${2:mixed}
  */
@@ -58,8 +58,9 @@ public function get${3:MyAttribute}()
 {
     return $this->${4:`!p snip.rv = t[3][:1].lower() + t[3][1:]`};
 }
+
 /**
- * Sets the value of $1
+ * Set the $1
  *
  * @param $2 $$4
  * @return ${5:`!p snip.rv = re.match(r'.*(?=\.)', fn).group()`}
